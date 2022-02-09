@@ -1,0 +1,27 @@
+---
+
+- name: install | Configure NGINX repository
+  yum_repository:
+    name: nginx
+    baseurl: {{ nginx_repo }}
+    description: NGINX Repository
+    enabled: yes
+    gpgcheck: no
+    mode: 0644
+  when: ansible_facts['distribution_major_version'] is version('8', '<')
+
+- name: install | install nginx packages from repository
+  yum:
+    name: "nginx{{ nginx_version | default('') }}"
+    state: present
+    disablerepo: "*"
+    enablerepo: nginx
+    update_cache: yes
+
+- name: install | CREATE CONFIG DIRECTORY
+  file:
+    path: /etc/nginx/conf.d
+    state: directory
+    owner: nginx
+    group: nginx
+    mode: '0751'

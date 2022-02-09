@@ -1,0 +1,12 @@
+---
+# tasks file for ansible-role_nginx_ng
+- name: Install and Configure | "fail if Operating System is not CentOS"
+  fail: msg="Operating System {{ ansible_distribution }}-{{ ansible_distribution_version }} not supported"
+  when: ansible_distribution != "CentOS"
+
+- name: Install and Configure
+  import_tasks: nginx_tasks_install.yml
+  
+- name: copy test config
+  import_tasks: nginx_tasks_config.yml
+

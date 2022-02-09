@@ -1,0 +1,31 @@
+---
+
+- name: nginx | create nginx config directory
+  file:
+    path: /etc/nginx/conf.d
+    state: directory
+    owner: nginx
+    group: nginx
+    mode: '0751'
+
+- name: nginx | create nginx logs directory
+  file:
+    path: /var/www/vhosts/test/logs
+    state: directory
+    owner: nginx
+    group: nginx
+    mode: '0774'
+
+- name: nginx | nginx service reload
+  systemd:
+    name: nginx
+    state: reloaded
+  tags: nginx_install_cp_sites_configs
+
+- name: grafana_tasks_nginx | ensure nginx is running
+  become: yes
+  systemd:  
+    name: nginx.service
+    state: started
+    daemon_reload: true
+    enabled: true

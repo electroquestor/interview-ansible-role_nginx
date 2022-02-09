@@ -1,0 +1,5 @@
+---
+# defaults file for ansible-role_nginx_ng
+nginx_version: ""
+
+nginx_repo: https://nginx.org/packages/centos/$releasever/$basearch/
